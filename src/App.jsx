@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import axios from "axios";
 
 function App() {
@@ -6,11 +6,19 @@ function App() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    console.log("response_data", data);
+  }, [data]); // This effect runs whenever 'count' changes
+
+
   const fetchData = async () => {
     setIsLoading(true);
+
     try {
-      const result = await axios(`http://localhost:3009/scrape?url=${encodeURIComponent(url)}`);
+      const result = await axios(`http://localhost:3000/scrape?url=${encodeURIComponent(url)}`);
       setData(result.data);
+
+      console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
       setData([]);
