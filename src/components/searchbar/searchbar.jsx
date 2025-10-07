@@ -10,17 +10,18 @@ function searchbar(props) {
     const currentPage = props.currentPage
     const [query, setQuery] = useState("");
     const [pageData, setPageData] = useState([]);
-    const [sortBy, setSortBy] = useState("featured");
+    const [filters, setFilters] = useState({sort_by:"featured", sort_dir:""});
 
     useEffect(() => {}, [pageData]);
 
     useEffect(() => {
+        //console.log('update-filter', filters);
         search();
-    }, [currentPage, sortBy]);
+    }, [currentPage, filters]);
 
     const search = async () => {
         try {
-            const response = await axios("http://localhost:3000/scrape?q=" + query + "&current_page=" + currentPage + "&sort_by=" + sortBy);
+            const response = await axios("http://localhost:3000/scrape?q=" + query + "&current_page=" + currentPage + "&filters=" + JSON.stringify(filters));
             setPageData(response.data.results);
             props.sendToParent(response.data.total_pages);
         } catch (err) {
@@ -32,8 +33,8 @@ function searchbar(props) {
     };
 
     function dataFromSortBar(data) {
-        setSortBy(data);
-        //console.log("dataFromSortBar", sortBy);
+        setFilters(data);
+        //console.log("dataFromSortBar", filters);
     }
 
     return (
@@ -44,7 +45,7 @@ function searchbar(props) {
                 <Button variant="warning" onClick={search}>Search</Button>
             </InputGroup>
         </div>
-        <Sortbar sendToParent={dataFromSortBar}></Sortbar>
+        <Sortbar sendToParent={dataFromSortBar} filters={filters}></Sortbar>
         { pageData.map((obj, i) => <p key={i}>{obj.title}</p>) }
         </>
     );

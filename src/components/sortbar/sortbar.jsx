@@ -3,12 +3,12 @@ import Form from 'react-bootstrap/Form';
 
 
 const sortbar = (props) => {
-    const [sortBy, setSortBy] = useState("featured");
+    const [filters, setFilters] = useState(props.filters);
 
-    function changeSort(str) {
-        setSortBy(str);
-        props.sendToParent(str);
-    }
+    useEffect(() => {
+        //console.log('sortbar', filters);
+        props.sendToParent(filters);
+    }, [filters]);
 
     return (
     <>
@@ -16,9 +16,9 @@ const sortbar = (props) => {
         {['radio'].map((type) => (
             <div key={"inline-${type}"} className="col-sm-6 offset-sm-3 my-3">
                 <label>Sort By:</label>
-                <Form.Check className="ms-3" inline checked={sortBy === "featured"} label="Featured" name="sort-by" type={type} id="sort-by-featured" onClick={() => { changeSort("featured"); }}/>
-                <Form.Check className="ms-3" inline checked={sortBy === "title-a-z"} label="Title (A-Z)" name="sort-by" type={type} id="sort-by-title-a-z" onClick={() => { changeSort("title-a-z"); }}/>
-                <Form.Check className="ms-3" inline checked={sortBy === "title-z-a"} label="Title (Z-A)" name="sort-by" type={type} id="sort-by-title-z-a" onClick={() => { changeSort("title-z-a"); }}/>
+                <Form.Check className="ms-3" inline checked={filters.sort_by === "featured"} label="Featured" name="sort-by" type={type} id="sort-by-featured" onClick={() => { setFilters({sort_by:"featured", sort_dir:""}); }}/>
+                <Form.Check className="ms-3" inline checked={filters.sort_by === "title-a-z"} label="Title (A-Z)" name="sort-by" type={type} id="sort-by-title-a-z" onClick={() => { setFilters({sort_by:"title", sort_dir:"asc"}); }}/>
+                <Form.Check className="ms-3" inline checked={filters.sort_by === "title-z-a"} label="Title (Z-A)" name="sort-by" type={type} id="sort-by-title-z-a" onClick={() => { setFilters({sort_by:"title", sort_dir:"desc"}); }}/>
             </div>
         ))}
     </Form>
