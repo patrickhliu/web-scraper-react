@@ -7,20 +7,24 @@ import axios from "axios";
 
 function pagination(props) {
     const [currentPage, setCurrentPage] = useState(1);
-    let arr = [];
+    const arr = [];
+
+    function changePage(num) {
+        setCurrentPage(num);
+    }
 
     for (let i = 1; i <= props.lastPage; i++) {
-        arr.push(<Pagination.Item key={i} active={i === 1}>{i}</Pagination.Item>);
+        arr.push(<Pagination.Item key={i} onClick={() => changePage(i)} active={i === currentPage}>{i}</Pagination.Item>);
     }
 
     return (
         <>
         <Pagination>
-            <Pagination.First onClick={() => setCurrentPage(1)} disabled={currentPage === 1} />
-            <Pagination.Prev onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} />
+            <Pagination.First onClick={() => changePage(1)} disabled={currentPage === 1} />
+            <Pagination.Prev onClick={() => changePage(currentPage - 1)} disabled={currentPage === 1} />
             {arr}
-            <Pagination.Next onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === props.lastPage} />
-            <Pagination.Last onClick={() => setCurrentPage(props.lastPage)} disabled={currentPage === props.lastPage} />
+            <Pagination.Next onClick={() => changePage(currentPage + 1)} disabled={currentPage === props.lastPage} />
+            <Pagination.Last onClick={() => changePage(props.lastPage)} disabled={currentPage === props.lastPage} />
         </Pagination>
         </>
     );
