@@ -5,17 +5,22 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Pagination from 'react-bootstrap/Pagination';
 import axios from "axios";
 
-function searchbar({ sendDataToParent }) {
+function searchbar(props) {
+    const currentPage = props.currentPage
     const [query, setQuery] = useState("");
     const [pageData, setPageData] = useState([]);
+
     useEffect(() => {}, [pageData]);
-    useEffect(() => { search(); }, []);
+
+    useEffect(() => {
+        search();
+    }, [currentPage]);
 
     const search = async () => {
         try {
-            const response = await axios("http://localhost:3000/scrape?q=" + query);
+            const response = await axios("http://localhost:3000/scrape?q=" + query + "&current_page=" + currentPage);
             setPageData(response.data.results);
-            sendDataToParent(response.data.total_pages);
+            props.sendToParent(response.data.total_pages);
         } catch (err) {
             console.error("Error fetching data:", err);
             //setData([]);

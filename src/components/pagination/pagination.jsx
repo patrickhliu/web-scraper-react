@@ -9,6 +9,10 @@ function pagination(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const arr = [];
 
+    useEffect(() => {
+        props.sendToParent(currentPage);
+    }, [currentPage]);
+
     function changePage(num) {
         setCurrentPage(num);
     }
