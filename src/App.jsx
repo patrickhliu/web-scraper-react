@@ -1,41 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from "axios";
 import Navbar from './components/navbar/navbar';
+import Searchbar from './components/searchbar/searchbar';
+import Pagination from './components/pagination/pagination'
 
 function App() {
-  const [url, setUrl] = useState("");
-  const [pageData, setPageData] = useState([]);
-  //const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-      console.log("data updated...");
-    }, [pageData]);
-
+    const [totalPages, setTotalPages] = useState(1);
     useEffect(() => {
-        fetchData();
-    }, []);
+        //console.log('total pages updated', totalPages);
+    }, [totalPages]);
 
-  const fetchData = async () => {
-      try {
-        const response = await axios(`http://localhost:3000/scrape?url=${encodeURIComponent(url)}`);
-        setPageData(await response.data);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-        //setData([]);
-      } finally {
-        //setLoading(false);
-      }
-    };
+    function handleDataFromChild(data) {
+        //console.log('child data', data);
+        setTotalPages(data);
+    }
 
-  return (
-    <>
-        <p>test</p>
-        <Navbar></Navbar>
-        { pageData.map((obj, i) => <p key={i}>{obj.name}</p>) }
-    </>
-
-  );
+    return (
+        <>
+            <Searchbar sendDataToParent={handleDataFromChild}></Searchbar>
+            {/* <Navbar></Navbar> */}
+            <Pagination lastPage={totalPages}></Pagination>
+        </>
+    );
 }
 
 export default App;
