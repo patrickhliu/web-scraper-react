@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav';
 
-function navbar({ data }) {
-  //console.log('b', data);
+function navbar(props) {
+    const [currentTab, setCurrentTab] = useState(props.currentTab);
+
+    //console.log('b', data);
+    function clickNav(eventKey) {
+        console.log('nav click', eventKey);
+        setCurrentTab(eventKey);
+        props.sendToParent(eventKey);
+    }
 
   return (
     <>
-    <Nav justify variant="tabs" defaultActiveKey="/home">
+    <Nav justify fill variant="tabs">
         <Nav.Item>
-            <Nav.Link href="/home">Hot Sales</Nav.Link>
+            <Nav.Link className={`${currentTab == 1 ? 'active-nav-tab' : ''}`} eventKey="1" onClick={() => clickNav(1)}>Games</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link eventKey="link-1">Tab 2</Nav.Link>
+            <Nav.Link className={`${currentTab == 2 ? 'active-nav-tab' : ''}`} eventKey="2"  onClick={() => clickNav(2)}>Tab 2</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link eventKey="link-2">Tab 3</Nav.Link>
+            <Nav.Link className={`${currentTab == 3 ? 'active-nav-tab' : ''}`} eventKey="3"  onClick={() => clickNav(3)}>Tab 3</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link eventKey="disabled" disabled>Disabled</Nav.Link>
+            <Nav.Link className={`${currentTab == 4 ? 'active-nav-tab' : ''}`} eventKey="4"  onClick={() => clickNav(4)}>Tab4</Nav.Link>
         </Nav.Item>
     </Nav>
     </>

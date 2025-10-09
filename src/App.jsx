@@ -5,8 +5,10 @@ import Searchbar from './components/searchbar/searchbar';
 import Pagination from './components/pagination/pagination'
 
 function App() {
+    const [currentTab, setCurrentTab] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [apiResponse, setApiResponse] = useState([]);
 
     useEffect(() => {
         //console.log('total pages updated', totalPages);
@@ -18,7 +20,8 @@ function App() {
 
     function dataFromSearchBar(data) {
         //console.log('dataFromSearchBar', data);
-        setTotalPages(data);
+        setTotalPages(data.total_pages);
+        setApiResponse(data.results);
     }
 
     function dataFromPagination(data) {
@@ -26,10 +29,16 @@ function App() {
         //console.log('dataFromPagination', data);
     }
 
+    function dataFromNavBar(data) {
+        setCurrentTab(data);
+        console.log('dataFromNavBar', data);
+    }
+
     return (
         <>
             <Searchbar sendToParent={dataFromSearchBar} currentPage={currentPage}></Searchbar>
-            {/* <Navbar></Navbar> */}
+            <Navbar sendToParent={dataFromNavBar} currentTab={currentTab}></Navbar>
+            { currentTab == 1 &&  apiResponse.map((obj, i) => <p key={i}>{obj.title}</p>) }
             <Pagination sendToParent={dataFromPagination} lastPage={totalPages}></Pagination>
         </>
     );

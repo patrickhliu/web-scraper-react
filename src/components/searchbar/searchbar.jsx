@@ -23,7 +23,7 @@ function searchbar(props) {
         try {
             const response = await axios("http://localhost:3000/scrape?q=" + query + "&current_page=" + currentPage + "&filters=" + JSON.stringify(filters));
             setPageData(response.data.results);
-            props.sendToParent(response.data.total_pages);
+            props.sendToParent(response.data);
         } catch (err) {
             console.error("Error fetching data:", err);
             //setData([]);
@@ -46,7 +46,7 @@ function searchbar(props) {
             </InputGroup>
         </div>
         <Sortbar sendToParent={dataFromSortBar} filters={filters}></Sortbar>
-        { pageData.map((obj, i) => <p key={i}>{obj.title}</p>) }
+
         </>
     );
 }
