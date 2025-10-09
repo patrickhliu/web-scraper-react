@@ -17,7 +17,22 @@
     color:#111 !important;
 }
 
+.bg-cherry-inv {
+    background-color: #fff !important;
+    color:#D2042D !important;
+    border:2px solid #D2042D;
+}
+
+.font-14 {
+    font-size:14px;
+}
+
+.font-16 {
+    font-size:16px;
+}
+
 .card-img-sq {
-    width:100px;
-    height:100px;
+    width:250px;
+    height:250px;
+    object-fit: contain;
 }

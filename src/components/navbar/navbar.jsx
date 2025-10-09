@@ -15,7 +15,7 @@ function navbar(props) {
     <>
     <Nav justify fill variant="tabs">
         <Nav.Item>
-            <Nav.Link className={`${currentTab == 1 ? 'bg-steel-blue' : ''}`} eventKey="1" onClick={() => clickNav(1)}>Games</Nav.Link>
+            <Nav.Link className={`${currentTab == 1 ? 'bg-steel-blue' : ''}`} eventKey="1" onClick={() => clickNav(1)}>Games<i className="ms-3 fa-solid fa-gamepad"></i></Nav.Link>
         </Nav.Item>
         <Nav.Item>
             <Nav.Link className={`${currentTab == 2 ? 'bg-steel-blue' : ''}`} eventKey="2"  onClick={() => clickNav(2)}>Tab 2</Nav.Link>

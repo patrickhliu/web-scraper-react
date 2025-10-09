@@ -4,15 +4,13 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const sortbar = (props) => {
-    if(!props.filters.game_category) props.filters.game_category = [];
-    if(!props.filters.console) props.filters.console = [];
     let cloneFilters = { ...props.filters };
 
     async function clickFilter(obj) {
         const promise = new Promise((resolve, reject) => {
             Object.keys(obj).forEach(key => {
                 //console.log(`Key: ${key}, Value: ${obj[key]}`);
-                if(["game_category", "console"].indexOf(key) >= 0) {
+                if(["game_category", "availability", "sales"].indexOf(key) >= 0) {
                     if(obj[key]) {
                         if(cloneFilters[key].includes(obj[key])) {
                             let index = cloneFilters[key].indexOf(obj[key]);
@@ -54,25 +52,61 @@ const sortbar = (props) => {
       </Dropdown.Menu>
     </Dropdown>
     <Dropdown>
-      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Deals</Dropdown.Toggle>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Category</Dropdown.Toggle>
       <Dropdown.Menu style={{ width: '250px', }}>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"Deals"}); }}>On Sale ({props.gameCategoryCount.deals}) {props.filters.game_category.includes("Deals") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"Demo available"}); }}>Has Demo ({props.gameCategoryCount.demo}) {props.filters.game_category.includes("Demo available") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"DLC"}); }}>DLC ({props.gameCategoryCount.dlc}) {props.filters.game_category.includes("DLC") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"Game Voucher eligible"}); }}>Game Voucher Eligible ({props.gameCategoryCount.voucher}) {props.filters.game_category.includes("Game Voucher eligible") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"Games with DLC"}); }}>Games w/ DLC ({props.gameCategoryCount.games_dlc}) {props.filters.game_category.includes("Games with DLC") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"Upgrade pack"}); }}>Upgrade Packs ({props.gameCategoryCount.upgrade}) {props.filters.game_category.includes("Upgrade pack") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"games"}); }}>Games {props.filters.game_category.includes("games") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"dlc"}); }}>DLC {props.filters.game_category.includes("dlc") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"both"}); }}>Games + DLC {props.filters.game_category.includes("both") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"demo"}); }}>Has Demo {props.filters.game_category.includes("demo") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"voucher"}); }}>Game Voucher Eligible {props.filters.game_category.includes("voucher") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
         <hr/>
         <Dropdown.Item onClick={() => { clickFilter({game_category:null }); }}>Clear</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Format</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({format:"all"}); }}>All {props.filters.format == "all" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({format:"digital"}); }}>Digital {props.filters.format == "digital" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({format:"physical"}); }}>Physical {props.filters.format == "physical" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Sales</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({sales:"sales"}); }}>On Sale ({props.gameCategoryCount.deals ?? 0}) {props.filters.sales.includes("sales") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <hr/>
+        <Dropdown.Item onClick={() => { clickFilter({sales:null }); }}>Clear</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
       <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Console</Dropdown.Toggle>
       <Dropdown.Menu style={{ width: '250px', }}>
-        <Dropdown.Item onClick={() => { clickFilter({console:"Nintendo Switch"}); }}>Switch {props.filters.console.includes("Nintendo Switch") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({console:"Nintendo Switch 2"}); }}>Switch 2 {props.filters.console.includes("Nintendo Switch 2") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({console:"all"}); }}>All {props.filters.console == "all" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({console:"switch1"}); }}>Switch {props.filters.console == "switch1" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({console:"switch2"}); }}>Switch 2 {props.filters.console == "switch2" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Availability</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({availability:"Available now"}); }}>Available Now {props.filters.availability.includes("Available now") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({availability:"Coming soon"}); }}>Coming Soon {props.filters.availability.includes("Coming soon") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({availability:"New releases"}); }}>New Releases {props.filters.availability.includes("New releases") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({availability:"Pre-order"}); }}>Pre-Order {props.filters.availability.includes("Pre-order") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
         <hr/>
-        <Dropdown.Item onClick={() => { clickFilter({console:null }); }}>Clear</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({availability:null }); }}>Clear</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Price Range</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:"all"}); }}>All {props.filters.price_range == "all" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:0}); }}>Free To Start {props.filters.price_range == 0 && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:1}); }}>$0 - $4.99 {props.filters.price_range == 1 && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:2}); }}>$10 - $19.99 {props.filters.price_range == 2 && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:3}); }}>$20 - $39.99 {props.filters.price_range == 3 && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({price_range:4}); }}>$40+ {props.filters.price_range == 4 && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     </ButtonGroup>

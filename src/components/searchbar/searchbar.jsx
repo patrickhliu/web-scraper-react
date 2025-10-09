@@ -11,7 +11,7 @@ function searchbar(props) {
     const currentPage = props.currentPage
     const [query, setQuery] = useState("");
     const [pageData, setPageData] = useState([]);
-    const [filters, setFilters] = useState({sort_by:"featured", sort_dir:""});
+    const [filters, setFilters] = useState({sort_by:"featured", sort_dir:"", "game_category":[],"sales":[], "format":"all", "console":"all","availability":[],"price_range":"all"});
 
     useEffect(() => {}, [pageData]);
 
