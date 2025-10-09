@@ -1,57 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
-
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const sortbar = (props) => {
-    //const [filters, setFilters] = useState(props.filters);
-    let filters = props.filters;
-    if(!filters["game_category"]) filters["game_category"] = [];
+    if(!props.filters.game_category) props.filters.game_category = [];
+    let cloneFilters = { ...props.filters };
+    if(!cloneFilters.game_category) cloneFilters.game_category = [];
 
-    useEffect(() => {
-        //console.log('sortbar', filters);
-        props.sendToParent(filters);
-    }, [filters]);
+    async function clickFilter(obj) {
+        const promise = new Promise((resolve, reject) => {
+            Object.keys(obj).forEach(key => {
+                console.log(`Key: ${key}, Value: ${obj[key]}`);
+                if(key == "game_category" && obj[key]) {
+                    if(cloneFilters.game_category.includes(obj[key])) {
+                        let index = cloneFilters.game_category.indexOf(obj[key]);
 
-    function clickFilter(newFilters) {
-        Object.keys(newFilters).forEach(key => {
-            //console.log(`Key: ${key}, Value: ${newFilters[key]}`);
-            if(key == "game_category") {
-                if(filters["game_category"].includes(newFilters[key])) {
-                    let index = filters["game_category"].indexOf(newFilters[key]);
-
-                    if (index !== -1) {
-                        filters["game_category"].splice(index, 1);
+                        if (index !== -1) {
+                            cloneFilters.game_category.splice(index, 1);
+                        }
+                    } else {
+                        cloneFilters.game_category.push(obj[key]);
                     }
-                } else {
-                    filters["game_category"].push(newFilters[key]);
+                    return;
+                } else if(key == "game_category" && !obj[key]) {
+                    cloneFilters.game_category = [];
+                    return;
                 }
-                return;
-            }
 
-            filters[key] = newFilters[key]
+                cloneFilters[key] = obj[key]
+            });
+
+            resolve(cloneFilters);
         });
-        console.log(filters);
+
+        await Promise.all([promise]);
+        //console.log(cloneFilters);
+        props.sendToParent(cloneFilters);
     }
 
     return (
     <>
+    <ButtonGroup aria-label="Side-by-side dropdown buttons">
     <Dropdown>
       <Dropdown.Toggle variant="" className="bg-steel-blue">Sort By</Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => { clickFilter({sort_by:"featured", sort_dir:""}); }}>Featured {filters.sort_by == "featured" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"asc"}); }}>Title (A-Z) {filters.sort_by == "title" && filters.sort_dir == "asc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"desc"}); }}>Title (Z-A) {filters.sort_by == "title" && filters.sort_dir == "desc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"featured", sort_dir:""}); }}>Featured {props.filters.sort_by == "featured" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"asc"}); }}>Title (A-Z) {props.filters.sort_by == "title" && props.filters.sort_dir == "asc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"desc"}); }}>Title (Z-A) {props.filters.sort_by == "title" && props.filters.sort_dir == "desc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     <Dropdown>
-      <Dropdown.Toggle variant="" className="bg-steel-blue">Deals</Dropdown.Toggle>
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"deals"}); }}>On Sale {filters["game_category"].includes("deals") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"dlc"}); }}>DLC {filters["game_category"].includes("dlc") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { clickFilter({game_category:"upgrade"}); }}>Upgrade Pack {filters["game_category"].includes("upgrade") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Deals</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"Deals"}); }}>On Sale {props.filters.game_category.includes("Deals") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"Demo available"}); }}>Has Demo {props.filters.game_category.includes("Demo available") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"DLC"}); }}>DLC {props.filters.game_category.includes("DLC") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"Game Voucher eligible"}); }}>Game Voucher Eligible {props.filters.game_category.includes("Game Voucher eligible") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"Games with DLC"}); }}>Games w/ DLC {props.filters.game_category.includes("Games with DLC") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"Upgrade pack"}); }}>Upgrade Packs {props.filters.game_category.includes("Upgrade pack") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:null }); }}>Clear</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
+    </ButtonGroup>
     {/* <Form>
         {['radio'].map((type) => (
             <div key={"inline-${type}"} className="col-sm-6 offset-sm-3 my-3">
