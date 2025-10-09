@@ -6,3 +6,8 @@
     background-color: #4682B4 !important;
     color: white !important; /* Adjust text color for contrast */
 }
+
+.card-img-sq {
+    width:100px;
+    height:100px;
+}

@@ -4,21 +4,52 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 
 const sortbar = (props) => {
-    const [filters, setFilters] = useState(props.filters);
+    //const [filters, setFilters] = useState(props.filters);
+    let filters = props.filters;
+    if(!filters["game_category"]) filters["game_category"] = [];
 
     useEffect(() => {
         //console.log('sortbar', filters);
         props.sendToParent(filters);
     }, [filters]);
 
+    function clickFilter(newFilters) {
+        Object.keys(newFilters).forEach(key => {
+            //console.log(`Key: ${key}, Value: ${newFilters[key]}`);
+            if(key == "game_category") {
+                if(filters["game_category"].includes(newFilters[key])) {
+                    let index = filters["game_category"].indexOf(newFilters[key]);
+
+                    if (index !== -1) {
+                        filters["game_category"].splice(index, 1);
+                    }
+                } else {
+                    filters["game_category"].push(newFilters[key]);
+                }
+                return;
+            }
+
+            filters[key] = newFilters[key]
+        });
+        console.log(filters);
+    }
+
     return (
     <>
     <Dropdown>
       <Dropdown.Toggle variant="" className="bg-steel-blue">Sort By</Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item onClick={() => { setFilters({sort_by:"featured", sort_dir:""}); }}>Featured {filters.sort_by == "featured" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { setFilters({sort_by:"title", sort_dir:"asc"}); }}>Title (A-Z) {filters.sort_by == "title" && filters.sort_dir == "asc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
-        <Dropdown.Item onClick={() => { setFilters({sort_by:"title", sort_dir:"desc"}); }}>Title (Z-A) {filters.sort_by == "title" && filters.sort_dir == "desc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"featured", sort_dir:""}); }}>Featured {filters.sort_by == "featured" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"asc"}); }}>Title (A-Z) {filters.sort_by == "title" && filters.sort_dir == "asc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({sort_by:"title", sort_dir:"desc"}); }}>Title (Z-A) {filters.sort_by == "title" && filters.sort_dir == "desc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue">Deals</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"deals"}); }}>On Sale {filters["game_category"].includes("deals") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"dlc"}); }}>DLC {filters["game_category"].includes("dlc") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({game_category:"upgrade"}); }}>Upgrade Pack {filters["game_category"].includes("upgrade") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     {/* <Form>
