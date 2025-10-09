@@ -48,7 +48,7 @@ function searchbar(props) {
                 </InputGroup>
             </Col>
             <Col>
-                <Sortbar sendToParent={dataFromSortBar} filters={filters}></Sortbar>
+                <Sortbar sendToParent={dataFromSortBar} filters={filters} gameCategoryCount={props.gameCategoryCount}></Sortbar>
             </Col>
         </Row>
         </>
