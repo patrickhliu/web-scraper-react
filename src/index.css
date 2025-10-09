@@ -7,6 +7,16 @@
     color: white !important; /* Adjust text color for contrast */
 }
 
+.bg-forest-green {
+    background-color: #228B22 !important;
+    color:#fff !important;
+}
+
+.bg-khaki {
+    background-color: #F0E68C !important;
+    color:#111 !important;
+}
+
 .card-img-sq {
     width:100px;
     height:100px;

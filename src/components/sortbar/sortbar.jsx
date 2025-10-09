@@ -5,26 +5,27 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 const sortbar = (props) => {
     if(!props.filters.game_category) props.filters.game_category = [];
+    if(!props.filters.console) props.filters.console = [];
     let cloneFilters = { ...props.filters };
-    if(!cloneFilters.game_category) cloneFilters.game_category = [];
 
     async function clickFilter(obj) {
         const promise = new Promise((resolve, reject) => {
             Object.keys(obj).forEach(key => {
-                console.log(`Key: ${key}, Value: ${obj[key]}`);
-                if(key == "game_category" && obj[key]) {
-                    if(cloneFilters.game_category.includes(obj[key])) {
-                        let index = cloneFilters.game_category.indexOf(obj[key]);
+                //console.log(`Key: ${key}, Value: ${obj[key]}`);
+                if(["game_category", "console"].indexOf(key) >= 0) {
+                    if(obj[key]) {
+                        if(cloneFilters[key].includes(obj[key])) {
+                            let index = cloneFilters[key].indexOf(obj[key]);
 
-                        if (index !== -1) {
-                            cloneFilters.game_category.splice(index, 1);
+                            if (index !== -1) {
+                                cloneFilters[key].splice(index, 1);
+                            }
+                        } else {
+                            cloneFilters[key].push(obj[key]);
                         }
                     } else {
-                        cloneFilters.game_category.push(obj[key]);
+                        cloneFilters[key] = [];
                     }
-                    return;
-                } else if(key == "game_category" && !obj[key]) {
-                    cloneFilters.game_category = [];
                     return;
                 }
 
@@ -35,7 +36,7 @@ const sortbar = (props) => {
         });
 
         await Promise.all([promise]);
-        //console.log(cloneFilters);
+        console.log(cloneFilters);
         props.sendToParent(cloneFilters);
     }
 
@@ -63,6 +64,15 @@ const sortbar = (props) => {
         <Dropdown.Item onClick={() => { clickFilter({game_category:"Upgrade pack"}); }}>Upgrade Packs ({props.gameCategoryCount.upgrade}) {props.filters.game_category.includes("Upgrade pack") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
         <hr/>
         <Dropdown.Item onClick={() => { clickFilter({game_category:null }); }}>Clear</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    <Dropdown>
+      <Dropdown.Toggle variant="" className="bg-steel-blue ms-3">Console</Dropdown.Toggle>
+      <Dropdown.Menu style={{ width: '250px', }}>
+        <Dropdown.Item onClick={() => { clickFilter({console:"Nintendo Switch"}); }}>Switch {props.filters.console.includes("Nintendo Switch") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { clickFilter({console:"Nintendo Switch 2"}); }}>Switch 2 {props.filters.console.includes("Nintendo Switch 2") && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <hr/>
+        <Dropdown.Item onClick={() => { clickFilter({console:null }); }}>Clear</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     </ButtonGroup>

@@ -18,7 +18,7 @@ function App() {
     }, [currentPage]);
 
     function dataFromSearchBar(data) {
-        //console.log('dataFromSearchBar', data);
+        console.log('dataFromSearchBar', data);
         //setTotalPages(data.total_pages);
         setApiResponse(data);
     }
@@ -49,11 +49,16 @@ function App() {
                     <Card.Body className="d-flex flex-column">
                         <Card.Title>
                             <b style={{ fontSize: '18px', }}>{obj.title}</b>
+                            <hr/>
                             <p className="mt-2" style={{ fontSize: '16px', }}>
                                 {obj.release_date}
-                                { obj.platform_code == "NINTENDO_SWITCH_2" && <Badge className="float-end" bg="danger">Switch 2</Badge> }
+                                { obj.platform_code == "NINTENDO_SWITCH" && <Badge className="float-end" bg="danger">Switch</Badge> }
+                                { obj.platform_code == "NINTENDO_SWITCH_2" && <Badge className="float-end" bg="danger">Switch <i class="fa-solid fa-2"></i></Badge> }
                             </p>
-                            <Badge className="float-start" bg="danger"><span style={{ fontSize: '14px', }}>${obj.regular_price}</span></Badge>
+                            { !obj.current_price && <span style={{ fontSize: '16px', }}>${obj.regular_price}</span>}
+                            { obj.current_price && <span style={{ fontSize: '16px', textDecoration: 'line-through', }}>${obj.regular_price}</span>}
+                            { obj.current_price && <Badge bg="" className="bg-forest-green ms-2">${obj.current_price}</Badge>}
+                            { obj.current_price && <Badge bg="" className="bg-khaki ms-2"><i class="fa-solid fa-arrow-trend-down"></i> - {obj.discount_percent}%</Badge>}
                         </Card.Title>
                         <Card.Text>
                         Some quick example text to build on the card title and make up the
