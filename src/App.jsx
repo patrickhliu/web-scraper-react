@@ -36,9 +36,13 @@ function App() {
 
     return (
         <>
-            <Searchbar sendToParent={dataFromSearchBar} currentPage={currentPage}></Searchbar>
+            <div className="my-3 ms-3">
+                <Searchbar sendToParent={dataFromSearchBar} currentPage={currentPage}></Searchbar>
+            </div>
             <Navbar sendToParent={dataFromNavBar} currentTab={currentTab}></Navbar>
-            { currentTab == 1 &&  apiResponse.map((obj, i) => <p key={i}>{obj.title}</p>) }
+            <div className="my-3 ms-3">
+                { currentTab == 1 &&  apiResponse.map((obj, i) => <p key={i}>{obj.title}</p>) }
+            </div>
             <Pagination sendToParent={dataFromPagination} lastPage={totalPages}></Pagination>
         </>
     );

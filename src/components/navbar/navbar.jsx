@@ -15,16 +15,16 @@ function navbar(props) {
     <>
     <Nav justify fill variant="tabs">
         <Nav.Item>
-            <Nav.Link className={`${currentTab == 1 ? 'active-nav-tab' : ''}`} eventKey="1" onClick={() => clickNav(1)}>Games</Nav.Link>
+            <Nav.Link className={`${currentTab == 1 ? 'bg-steel-blue' : ''}`} eventKey="1" onClick={() => clickNav(1)}>Games</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link className={`${currentTab == 2 ? 'active-nav-tab' : ''}`} eventKey="2"  onClick={() => clickNav(2)}>Tab 2</Nav.Link>
+            <Nav.Link className={`${currentTab == 2 ? 'bg-steel-blue' : ''}`} eventKey="2"  onClick={() => clickNav(2)}>Tab 2</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link className={`${currentTab == 3 ? 'active-nav-tab' : ''}`} eventKey="3"  onClick={() => clickNav(3)}>Tab 3</Nav.Link>
+            <Nav.Link className={`${currentTab == 3 ? 'bg-steel-blue' : ''}`} eventKey="3"  onClick={() => clickNav(3)}>Tab 3</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-            <Nav.Link className={`${currentTab == 4 ? 'active-nav-tab' : ''}`} eventKey="4"  onClick={() => clickNav(4)}>Tab4</Nav.Link>
+            <Nav.Link className={`${currentTab == 4 ? 'bg-steel-blue' : ''}`} eventKey="4"  onClick={() => clickNav(4)}>Tab4</Nav.Link>
         </Nav.Item>
     </Nav>
     </>

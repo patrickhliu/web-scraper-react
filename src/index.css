@@ -2,7 +2,7 @@
     cursor: pointer;
 }
 
-.active-nav-tab {
-    background-color: darkred !important;
+.bg-steel-blue {
+    background-color: #4682B4 !important;
     color: white !important; /* Adjust text color for contrast */
 }

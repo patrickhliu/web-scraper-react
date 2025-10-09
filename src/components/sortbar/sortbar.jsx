@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Dropdown from 'react-bootstrap/Dropdown';
 
+
 const sortbar = (props) => {
     const [filters, setFilters] = useState(props.filters);
 
@@ -13,14 +14,11 @@ const sortbar = (props) => {
     return (
     <>
     <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
-        Dropdown Button
-      </Dropdown.Toggle>
-
+      <Dropdown.Toggle variant="" className="bg-steel-blue">Sort By</Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item onClick={() => { setFilters({sort_by:"featured", sort_dir:""}); }}>Featured {filters.sort_by == "featured" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { setFilters({sort_by:"title", sort_dir:"asc"}); }}>Title (A-Z) {filters.sort_by == "title" && filters.sort_dir == "asc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
+        <Dropdown.Item onClick={() => { setFilters({sort_by:"title", sort_dir:"desc"}); }}>Title (Z-A) {filters.sort_by == "title" && filters.sort_dir == "desc" && <i className="mt-1 fa-regular fa-circle-check float-end"></i>}</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     {/* <Form>
